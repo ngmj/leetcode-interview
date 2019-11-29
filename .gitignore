@@ -1,0 +1,11 @@
+**/*.o
+**/*.out
+**/*.bk
+**/*.txt
+**/*.so
+**/*.a
+**/*.lib
+**/*.log
+**/tags
+**/core*
+**/test/test
