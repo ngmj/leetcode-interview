@@ -1,4 +1,5 @@
 #include <vector>
+#include <limits>
 #include <iostream>
 #include <algorithm>
 #include <map>
@@ -12,6 +13,12 @@
 /*
  * */
 using namespace std;
+
+typedef vector<vector<int>> VVI;
+typedef vector<int> VI;
+typedef long long LL;
+LL MAX_LL = std::numeric_limits<LL>::max();;
+int MAX_INT = std::numeric_limits<int>::max();;
 
 class Solution {
 public:
