@@ -6,11 +6,18 @@
 #include <set>
 #include <stack>
 #include <queue>
+#include <deque>
 #include <unordered_set>
 #include <unordered_map>
 #include "string_util.h"
 
 /*
+ * stack: top(), pop(), push(), empty()
+ * queue: front(), back(), push(), pop(), empty()
+ * priority_queue: front(), push(), pop(), empty()
+ *  std::priority_queue<int> 默认是大根堆，
+ *  std::priority_queue<int, std::vector<int>, std::greater<int> > 小根堆
+ * deque: front(), back(), push_back(), pop_back, push_front, pop_front(), empty(), clear()
  * */
 using namespace std;
 
