@@ -14,7 +14,7 @@
 /*
  * stack: top(), pop(), push(), empty()
  * queue: front(), back(), push(), pop(), empty()
- * priority_queue: front(), push(), pop(), empty()
+ * priority_queue: top(), push(), pop(), empty()
  * deque: front(), back(), push_back(), pop_back, push_front, pop_front(), empty(), clear()
  * https://leetcode-cn.com/problems/sliding-window-maximum/
  * queue<int>, 保证头部是当前队列中最大值，处理当前元素时，遵循如下规则

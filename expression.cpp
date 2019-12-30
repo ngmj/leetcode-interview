@@ -18,6 +18,8 @@
  *  std::priority_queue<int> 默认是大根堆，
  *  std::priority_queue<int, std::vector<int>, std::greater<int> > 小根堆
  * deque: front(), back(), push_back(), pop_back, push_front, pop_front(), empty(), clear()
+ * 1_2_3_4_5_6_7_8_9=-497,每处_填入1个运算符/+-*,且4个运算符必须都用上,使得等式成立(答案保证唯一),表达式为?
+ * 思路深度优先搜索即可
  * */
 using namespace std;
 
