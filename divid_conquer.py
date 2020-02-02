@@ -34,3 +34,15 @@ def divid_conquer(problem, param1, param2, ...):
 
     # process and generate the final result
     result = process_result(subresult1, subresult2, subresult3, ...)
+
+def binary_search( array, target ):
+    left, right = 0, len(array) - 1
+    while left <= right:
+        mid = ( left + right ) / 2
+        if array[mid] == target:
+            # find the target!!
+            break or return result
+        elif array[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1

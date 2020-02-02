@@ -31,8 +31,7 @@ class Solution {
 public:
 };
 
-int main()
-{
+int main() {
     Solution sol;
     return 0;
 }
