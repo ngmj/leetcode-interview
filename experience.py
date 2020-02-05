@@ -46,3 +46,7 @@ def binary_search( array, target ):
             left = mid + 1
         else:
             right = mid - 1
+
+// 位运算
+X & (X - 1) =》消掉X最后一位1，不管这个1在什么位置
+X & -X =》得到最后一位1
