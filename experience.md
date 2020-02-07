@@ -1,4 +1,4 @@
-
+# 递归求解模版
 def recursion(level, param1, param2, ...):
 
     # recursion termination
@@ -15,6 +15,7 @@ def recursion(level, param1, param2, ...):
     # reverse the current level if needed
     reverse_state(level)
 
+# 分治法求解模版
 def divid_conquer(problem, param1, param2, ...):
     
     # recursion termination
@@ -35,6 +36,7 @@ def divid_conquer(problem, param1, param2, ...):
     # process and generate the final result
     result = process_result(subresult1, subresult2, subresult3, ...)
 
+# 二分处理模版
 def binary_search( array, target ):
     left, right = 0, len(array) - 1
     while left <= right:
@@ -47,6 +49,20 @@ def binary_search( array, target ):
         else:
             right = mid - 1
 
-// 位运算
+# 位运算常用算子
 X & (X - 1) =》消掉X最后一位1，不管这个1在什么位置
 X & -X =》得到最后一位1
+
+# 买卖股票问题的通解
+状态：dp[i][k][0 or 1]表示第i天，k次交易后，不持有或持有股票时收益
+状态转移方程：
+dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i-1])
+              max(前一天不持有,    前一天持有今天卖出     ) // 一次买卖才是一次交易，所以k可以理解为买的次数
+dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i-1])
+              max( 前一天持有  , 前一天不持有今天买入     )
+初始状态
+dp[0][k][0] = 0
+dp[0][k][1] = MIN_INT
+dp[i][0][0] = 0
+dp[i][0][1] = MIN_INT
+

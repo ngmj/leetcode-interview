@@ -47,10 +47,7 @@ public:
             return 0;
         }
         
-        vector<LL> opt(n, 0);
-        for (int j = 0; j < n; ++j) {
-            opt[j] = triangle[m-1][j];
-        }
+        vector<int> opt = triangle[m-1];
         for (int i = m-2; i >= 0; --i) {
             n = triangle[i].size();
             for (int j = 0; j < n; ++j) {
