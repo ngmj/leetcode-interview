@@ -13,15 +13,13 @@
 
 /*
  * stack: top(), pop(), push(), empty()
- * priority_queue: top(), pop(), push(), empty()
+ * queue: front(), back(), push(), pop(), empty()
+ * priority_queue: top(), push(), pop(), empty()
  *  std::priority_queue<int> 默认是大根堆，
  *  std::priority_queue<int, std::vector<int>, std::greater<int> > 小根堆
- * queue: front(), back(), push(), pop(), empty()
  * deque: front(), back(), push_back(), pop_back, push_front, pop_front(), empty(), clear()
- *
- * iter = lower_bound(start, end, val) 返回[start, end)>=val的第一个位置（下界）
- * iter = upper_bound(start, end, val) 返回[start, end)>val的第一个位置（上界）
- * 如(11,12) lower_bound查找11，返回0；upper_bound则返回1
+ * https://leetcode-cn.com/problems/longest-increasing-subsequence/submissions/
+ * dp解法
  * */
 using namespace std;
 
@@ -37,9 +35,30 @@ int MIN_INT = std::numeric_limits<int>::min();
 
 class Solution {
 public:
+    int lengthOfLIS(vector<int>& nums) {
+        if (nums.size() < 1) {
+            return 0;
+        }
+
+        int ans = 0;
+        vector<int> dp(nums.size(), 0);
+        for (int i = 0; i < nums.size(); ++i) {
+            int max = 0;
+            for (int j = 0; j < i; ++j) {
+                if (nums[j] < nums[i]) {
+                    max = std::max(max, dp[j]);
+                }
+            }
+            dp[i] = max + 1;
+            ans = std::max(ans, dp[i]);
+        }
+        return ans;
+    }
 };
 
 int main() {
     Solution sol;
+    vector<int> nums1 = {10,9,2,5,3,7,101,18};
+    cout << sol.lengthOfLIS(nums1) << endl;
     return 0;
 }

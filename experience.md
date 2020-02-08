@@ -1,5 +1,5 @@
 # 递归求解模版
-def recursion(level, param1, param2, ...):
+int recursion(level, param1, param2, ...):
 
     # recursion termination
     if level > MAX_LEVEL:
@@ -14,6 +14,27 @@ def recursion(level, param1, param2, ...):
 
     # reverse the current level if needed
     reverse_state(level)
+
+# dfs & bfs
+visisted[][]
+int dfs(node, visisted, ...):
+    # 退出条件，如isValid(node, ...)
+    visisted.add(node)
+    for n in node.children():
+        if not n || visisted(n):
+            dfs(n, visisted, ...)
+
+int bfs(graph, start, end):
+    queue.push(start)
+    while (!queue.empty()):
+        node = queue.top()
+        queue.pop()
+        visisted.add(node)
+
+        process(node)
+        for n in node.children():
+            queue.push(n)
+    # other processing work
 
 # 分治法求解模版
 def divid_conquer(problem, param1, param2, ...):
@@ -40,7 +61,7 @@ def divid_conquer(problem, param1, param2, ...):
 def binary_search( array, target ):
     left, right = 0, len(array) - 1
     while left <= right:
-        mid = ( left + right ) / 2
+        mid = left + (right - left) / 2
         if array[mid] == target:
             # find the target!!
             break or return result
