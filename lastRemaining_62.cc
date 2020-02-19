@@ -19,11 +19,13 @@
  *  std::priority_queue<int, std::vector<int>, std::greater<int> > 小根堆
  * queue: front(), back(), push(), pop(), empty()
  * deque: front(), back(), push_back(), pop_back, push_front, pop_front(), empty(), clear()
- * list: push_back, push_front, insert(pos, val), front, remove(val), erase(iter)
+ * list: push_back, push_front, insert
  *
  * iter = lower_bound(start, end, val) 返回[start, end)>=val的第一个位置（下界）
  * iter = upper_bound(start, end, val) 返回[start, end)>val的第一个位置（上界）
  * 如(11,12) lower_bound查找11，返回0；upper_bound则返回1
+ *
+ * https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/
  * */
 using namespace std;
 
@@ -39,9 +41,25 @@ int MIN_INT = std::numeric_limits<int>::min();
 
 class Solution {
 public:
+    int lastRemaining(int n, int m) {
+        list<int> li;
+        for (int i = 0; i < n; ++i) {
+            li.push_back(i);
+        }
+        int c = (m - 1) % li.size();
+        while (li.size() > 1) {
+            int i = c;
+            auto iter = li.begin();
+            while (i--) { iter++; }
+            li.erase(iter);
+            c = (c + m - 1) % li.size();
+        }
+        return li.front();
+    }
 };
 
 int main() {
     Solution sol;
+    cout << sol.lastRemaining(5, 3) << endl;
     return 0;
 }
