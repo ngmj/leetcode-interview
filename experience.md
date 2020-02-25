@@ -59,16 +59,18 @@ def divid_conquer(problem, param1, param2, ...):
 
 # 二分处理模版
 def binary_search( array, target ):
-    left, right = 0, len(array) - 1
-    while left <= right:
-        mid = left + (right - left) / 2
-        if array[mid] == target:
+    s, e = 0, len(array) - 1
+    while s <= e:
+        m = s + (e - s) / 2 # 下取整
+        if array[m] == target:
             # find the target!!
-            break or return result
-        elif array[mid] < target:
-            left = mid + 1
+            return True
+        elif array[m] < target:
+            s = m + 1
         else:
-            right = mid - 1
+            e = m - 1
+    // e是下界首个小于target的下标，s是上界首个大于target的下标
+    return False
 
 # 位运算常用算子
 X & (X - 1) =》消掉X最后一位1，不管这个1在什么位置
