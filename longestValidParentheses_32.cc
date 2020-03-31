@@ -72,4 +72,5 @@ int main()
 
     s = "(()()())";
     cout << s << "|" << ( sol.longestValidParentheses( s ) == 8 ) << endl;
+    return 0;
 }

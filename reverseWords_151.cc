@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include <map>
+#include <list>
 #include <set>
 #include <stack>
 #include <queue>
@@ -18,13 +19,14 @@
  *  std::priority_queue<int, std::vector<int>, std::greater<int> > 小根堆
  * queue: front(), back(), push(), pop(), empty()
  * deque: front(), back(), push_back(), pop_back, push_front, pop_front(), empty(), clear()
+ * list: push_back, push_front, insert(pos, val), front, remove(val), erase(iter)
  *
  * iter = lower_bound(start, end, val) 返回[start, end)>=val的第一个位置（下界）
  * iter = upper_bound(start, end, val) 返回[start, end)>val的第一个位置（上界）
  * 如(11,12) lower_bound查找11，返回0；upper_bound则返回1
  *
- * https://leetcode-cn.com/problems/longest-increasing-subsequence/
- * dfs + 记忆搜索，时间负责度O(n^2)，考虑斐波那契数列 树状图，有一半被cache住了
+ * https://leetcode-cn.com/problems/reverse-words-in-a-string/
+ * 跳过首位空格，然后分割空格，并且保存首个单词的指针
  * */
 using namespace std;
 
@@ -40,38 +42,38 @@ int MIN_INT = std::numeric_limits<int>::min();
 
 class Solution {
 public:
-    int lengthOfLIS(vector<int>& nums) {
-        if (nums.size() < 1) {
-            return 0;
+    string reverseWords(string s) {
+        vector<const char*> pVec;
+        char last_char = '\0';
+        int i = 0;
+        while (i < s.size()) {
+            if (s[i] != ' ' && '\0' == last_char) {
+                pVec.push_back(s.c_str() + i);
+            } else if (s[i] == ' ') {
+                s[i] = '\0';
+            }
+            last_char = s[i];
+            ++i;
         }
-        vector<vector<int>> mm(nums.size(), vector<int>(nums.size(), -1));
-        return dfs(nums, mm, 0, -1);
-    }
-
-    // 以pre_index为最长子序列最后一个元素，i为当前元素
-    int dfs(vector<int>& nums, vector<vector<int>> &mm, int i, int pre_index) {
-        if (i >= nums.size()) {
-            return 0;
+        string ans = "";
+        ans.reserve(s.size());
+        for (int i = pVec.size() - 1; i > -1; --i) {
+            const char *p = pVec[i];
+            while ('\0' != *p) {
+                ans.push_back(*p);
+                p += 1;
+            }
+            if (i > 0) {
+                ans.push_back(' ');
+            }
         }
-
-        if (mm[pre_index + 1][i] > -1) {
-            return mm[pre_index + 1][i];
-        }
-
-        int val1 = 0, val2 = 0;
-        if (pre_index < 0 || nums[i] > nums[pre_index]) {
-            val1 = dfs(nums, mm, i + 1, i) + 1;
-        }
-
-        val2 = dfs(nums, mm, i + 1, pre_index);
-        mm[pre_index + 1][i] = max(val1, val2);
-        return mm[pre_index + 1][i];
+        return ans;
     }
 };
 
 int main() {
     Solution sol;
-    vector<int> nums1 = {10,9,2,5,3,7,101,18};
-    cout << sol.lengthOfLIS(nums1) << endl;
+    cout << sol.reverseWords("the sky is blue") << endl;
+    cout << sol.reverseWords("  hello  world!  ") << endl;
     return 0;
 }

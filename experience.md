@@ -21,11 +21,12 @@ int dfs(node, visisted, ...):
     # 退出条件，如isValid(node, ...)
     visisted.add(node)
     for n in node.children():
-        if not n || visisted(n):
+        if not n && !visisted(n):
             dfs(n, visisted, ...)
 
-int bfs(graph, start, end):
-    queue.push(start)
+int bfs(graph, node):
+    queue.push(node)
+    visisted = set()
     while (!queue.empty()):
         node = queue.top()
         queue.pop()
@@ -33,7 +34,8 @@ int bfs(graph, start, end):
 
         process(node)
         for n in node.children():
-            queue.push(n)
+            if not n && !visisted(n):
+                queue.push(n)
     # other processing work
 
 # 分治法求解模版
@@ -90,8 +92,16 @@ dp[i][0][0] = 0
 dp[i][0][1] = MIN_INT
 
 # 单调上升或下降栈
-适合求解前后数字下降或上升的规律题，如求解“下一个更大值”，“接雨水”等题
 
-# 字串问题
-最长公共子序列，最长公共子串（子串是连续的）动态规划
-滑动窗口，双指针，right往右得到可行解，左指针往右得到当前最优解
+# 常见问题
+## 调上升或下降栈
+    适合求解前后数字下降或上升的规律题，如求解“下一个更大值”，“接雨水”等题
+## 0/1背包问题
+    p[i][w]表示前i个物品，背包限制大小为w时最优解
+## 子串问题
+    最长公共子序列，最长公共子串（子串是连续的）动态规划
+    最长上升子序列(a、两层for循环 动态规划；b、dfs；c、dfs+状态记忆，pre为结尾+当前i元素判断的最优解；d、上升子序列+二分查找替换)
+## 滑动窗口
+    双指针，right往右得到可行解，左指针往右得到当前最优解
+    如字符串中最长不重复字符数目之类的
+    如最长上升子串（串是连续的）
