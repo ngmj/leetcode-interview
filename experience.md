@@ -71,7 +71,8 @@ def binary_search( array, target ):
             s = m + 1
         else:
             e = m - 1
-    // e是下界首个小于target的下标，s是上界首个大于target的下标
+    // e是最后一个小于target的下标，s是首个大于target的下标
+    // 走到这, 一定是这样data[e] < target < data[s]
     return False
 
 # 位运算常用算子
