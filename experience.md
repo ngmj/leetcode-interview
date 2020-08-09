@@ -15,6 +15,27 @@ int recursion(level, param1, param2, ...):
     # reverse the current level if needed
     reverse_state(level)
 
+# 分治法求解模版
+def divid_conquer(problem, param1, param2, ...):
+    
+    # recursion termination
+    if problem is None:
+        print_result
+        return
+
+    # prepare data
+    data = prepare_data(problem)
+    subproblems = split_problem(problem, data)
+
+    # conquer subproblems
+    subresult1 = divid_conquer( subproblems[0], p1, ... )
+    subresult2 = divid_conquer( subproblems[1], p1, ... )
+    subresult3 = divid_conquer( subproblems[2], p1, ... )
+    ...
+
+    # process and generate the final result
+    result = process_result(subresult1, subresult2, subresult3, ...)
+
 # dfs & bfs
 visisted[][]
 int dfs(node, visisted, ...):
@@ -38,28 +59,8 @@ int bfs(graph, node):
                 queue.push(n)
     # other processing work
 
-# 分治法求解模版
-def divid_conquer(problem, param1, param2, ...):
-    
-    # recursion termination
-    if problem is None:
-        print_result
-        return
-
-    # prepare data
-    data = prepare_data(problem)
-    subproblems = split_problem(problem, data)
-
-    # conquer subproblems
-    subresult1 = divid_conquer( subproblems[0], p1, ... )
-    subresult2 = divid_conquer( subproblems[1], p1, ... )
-    subresult3 = divid_conquer( subproblems[2], p1, ... )
-    ...
-
-    # process and generate the final result
-    result = process_result(subresult1, subresult2, subresult3, ...)
-
 # 二分处理模版
+## 1、不确定target是否存在
 def binary_search( array, target ):
     s, e = 0, len(array) - 1
     while s <= e:
@@ -74,6 +75,19 @@ def binary_search( array, target ):
     // e是最后一个小于target的下标，s是首个大于target的下标
     // 走到这, 一定是这样data[e] < target < data[s]
     return False
+## 2. 确定target存在，求下标
+def binary_search( array, target ):
+    s, e = 0, len(array) - 1
+    # NOTE: s < e 且 一次只挪动一个值
+    while s < e: 
+        m = s + (e - s) / 2 # 下取整
+        # 因为m跟右边的比过来，没符合，所以可以s = m+1
+        if array[m] < target:
+            s = m + 1
+        # m未跟左边比过，所以e=m
+        else:
+            e = m 
+    return s # s == e
 
 # 位运算常用算子
 X & (X - 1) =》消掉X最后一位1，不管这个1在什么位置
@@ -106,3 +120,5 @@ dp[i][0][1] = MIN_INT
     双指针，right往右得到可行解，左指针往右得到当前最优解
     如字符串中最长不重复字符数目之类的
     如最长上升子串（串是连续的）
+## 前缀和
+    数组（非负数组）或类两值数组（如求数字和字母数组中最长的子数组，满足字母个数和数字个数相等）
