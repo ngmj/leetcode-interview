@@ -75,6 +75,21 @@ def binary_search( array, target ):
     // e是最后一个小于target的下标，s是首个大于target的下标
     // 走到这, 一定是这样data[e] < target < data[s]
     return False
+
+## 1.2 不确定是否有符合条件的（查找首个比val大的元素位置）
+def binary_search( array, target ):
+    s, e = 0, len(array) - 1
+    while s <= e:
+        m = s + (e - s) / 2 # 下取整
+        if array[m] <= target:
+            s = m + 1
+        else:
+            e = m - 1
+    // 只要还会==，那么s=m+1，s往后走，直到target < data[s] 或者s溢出
+    // 只要还会>，那么e=m-1，e往前，直到data[e] <= target 或者 e溢出
+    // 故走到这, 一定是这样data[e] <= target < data[s] 或者s e溢出范围
+    return s # s可能大于len(array) - 1 
+
 ## 2. 确定target存在，求下标
 def binary_search( array, target ):
     s, e = 0, len(array) - 1
@@ -83,7 +98,7 @@ def binary_search( array, target ):
         m = s + (e - s) / 2 # 下取整
         # 因为m跟右边的比过来，没符合，所以可以s = m+1
         if array[m] < target:
-            s = m + 1
+            s = m + 1 # NOTE: 因为是下取整，所以一定要s+1，否则容易出现死循环，如s=0，e=1
         # m未跟左边比过，所以e=m
         else:
             e = m 
