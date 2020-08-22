@@ -25,9 +25,6 @@
  * iter = lower_bound(start, end, val) 返回[start, end)>=val的第一个位置（下界）
  * iter = upper_bound(start, end, val) 返回[start, end)>val的第一个位置（上界）
  * 如(11,12) lower_bound查找11，返回0；upper_bound则返回1
- * https://leetcode-cn.com/classic/problems/jian-sheng-zi-lcof/description/
- * dp[n] = max{i*dp[n-i], i*(n-i)}
- *             分成i长度端，剩下的n-i分成至少两段；只分成两段i和n-i长度
  * */
 using namespace std;
 
@@ -43,23 +40,40 @@ int MIN_INT = std::numeric_limits<int>::min();
 
 class Solution {
 public:
-  int cuttingRope(int n) {
-    vector<int> dp(n+1, 0);
-    dp[2] = 1;
-    for (int i = 3; i <= n; ++i) {
-      int ans = 0;
-      for (int j = 1; j <= i; ++j) {
-        ans = max(max(j*dp[i-j], j*(i-j)), ans);
-      }
-      dp[i] = ans;
+  bool isSubStructure(TreeNode* A, TreeNode* B) {
+    if (nullptr == A || nullptr == B) {
+      return false;
     }
-    return dp[n];
+    return pot(A, B);
+  }
+
+  bool pot(TreeNode* A, TreeNode* B) {
+    if (nullptr == A) { return false; }
+    bool ismatch = false;
+    if (A->val == B->val) {
+      ismatch = match(A->left, B->left) && match(A->right, B->right);
+    }
+    if (ismatch) { return ismatch; }
+    if (pot(A->left, B)) {
+      return true;
+    }
+    return pot(A->right, B);
+  }
+  bool match(TreeNode* A, TreeNode* B) {
+    if (nullptr == B) { return true; }
+    if (nullptr == A && nullptr != B) { return false; }
+    return (A->val == B->val) && match(A->left, B->left) && match(A->right, B->right);
   }
 };
 
 int main() {
     Solution sol;
-    cout << (sol.cuttingRope(2) == 1) << endl;
-    cout << (sol.cuttingRope(10) == 36) << endl;
+    Codec cc;
+    string data1 = "[3,4,5,1,2]";
+    string data2 = "[4,1]";
+    cout << (sol.isSubStructure(cc.deserialize(data1), cc.deserialize(data2)) == true) << endl; 
+    string data3 = "[1,2,3]";
+    string data4 = "[3,1]";
+    cout << (sol.isSubStructure(cc.deserialize(data3), cc.deserialize(data4)) == false) << endl;
     return 0;
 }

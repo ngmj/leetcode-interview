@@ -10,6 +10,7 @@
 #include <deque>
 #include <unordered_set>
 #include <unordered_map>
+#include "serialize_deserialize_tree.hpp"
 #include "string_util.h"
 
 /*

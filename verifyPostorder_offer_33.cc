@@ -25,9 +25,9 @@
  * iter = lower_bound(start, end, val) 返回[start, end)>=val的第一个位置（下界）
  * iter = upper_bound(start, end, val) 返回[start, end)>val的第一个位置（上界）
  * 如(11,12) lower_bound查找11，返回0；upper_bound则返回1
- * https://leetcode-cn.com/classic/problems/jian-sheng-zi-lcof/description/
- * dp[n] = max{i*dp[n-i], i*(n-i)}
- *             分成i长度端，剩下的n-i分成至少两段；只分成两段i和n-i长度
+ * https://leetcode-cn.com/classic/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/description/
+ * 思路, (i,j)找到首个比val[j]大的值，划分成两个子数组(i, m-1) (m, j-1)分别递归验证，
+ *       注意在找m的过程中，要一边找，一边验证val(i, m-1) < val[j], val(m, j-1) > val[j]
  * */
 using namespace std;
 
@@ -43,23 +43,25 @@ int MIN_INT = std::numeric_limits<int>::min();
 
 class Solution {
 public:
-  int cuttingRope(int n) {
-    vector<int> dp(n+1, 0);
-    dp[2] = 1;
-    for (int i = 3; i <= n; ++i) {
-      int ans = 0;
-      for (int j = 1; j <= i; ++j) {
-        ans = max(max(j*dp[i-j], j*(i-j)), ans);
-      }
-      dp[i] = ans;
-    }
-    return dp[n];
+  bool verifyPostorder(const vector<int>& postorder) {
+    return searhAndCheck(postorder, 0, postorder.size()-1);
+  }
+  bool searhAndCheck(const vector<int>& postorder, int i, int j) {
+    if (i >= j) { return true; }
+    // 找到首个比postorder[j]大的值下标m，[i, m-1], [m, j-1]
+    int a = i;
+    while (postorder[a] < postorder[j]) { ++a; };
+    int m = a;
+    while (postorder[a] > postorder[j]) { ++a; };
+    return a == j && searhAndCheck(postorder, i, m-1) && searhAndCheck(postorder, m, j-1);
   }
 };
 
 int main() {
     Solution sol;
-    cout << (sol.cuttingRope(2) == 1) << endl;
-    cout << (sol.cuttingRope(10) == 36) << endl;
+    cout << (sol.verifyPostorder({1,2,5,3}) == true) << endl;
+    cout << (sol.verifyPostorder({1,3,2}) == true) << endl;
+    cout << (sol.verifyPostorder({1,6,3,2,5}) == false) << endl;
+    cout << (sol.verifyPostorder({1,3,2,6,5}) == true) << endl;
     return 0;
 }

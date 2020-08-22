@@ -25,9 +25,13 @@
  * iter = lower_bound(start, end, val) 返回[start, end)>=val的第一个位置（下界）
  * iter = upper_bound(start, end, val) 返回[start, end)>val的第一个位置（上界）
  * 如(11,12) lower_bound查找11，返回0；upper_bound则返回1
- * https://leetcode-cn.com/classic/problems/jian-sheng-zi-lcof/description/
- * dp[n] = max{i*dp[n-i], i*(n-i)}
- *             分成i长度端，剩下的n-i分成至少两段；只分成两段i和n-i长度
+ * https://leetcode-cn.com/classic/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/description/
+ * 思路, 将当前序列颠倒，然后用单调递增栈做
+ * (https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/comments/)
+ *       if val > stack.top() 
+ *         return false 
+ *       else
+ *         一直将栈内元素弹出直到单调递增
  * */
 using namespace std;
 
@@ -43,23 +47,27 @@ int MIN_INT = std::numeric_limits<int>::min();
 
 class Solution {
 public:
-  int cuttingRope(int n) {
-    vector<int> dp(n+1, 0);
-    dp[2] = 1;
-    for (int i = 3; i <= n; ++i) {
-      int ans = 0;
-      for (int j = 1; j <= i; ++j) {
-        ans = max(max(j*dp[i-j], j*(i-j)), ans);
-      }
-      dp[i] = ans;
+  bool verifyPostorder(const vector<int>& postorder) {
+    stack<int> inc;
+    // 假装当前树是MAX_INT的左子树
+    inc.push(MAX_INT);
+    int pre = inc.top();
+    // root->right（比root大）->left（比root小）
+    for (int i = postorder.size()-1; i > -1; --i) {
+      int val = postorder[i];
+      if (val > pre) { return false; } 
+      // pre会一直回退到上一层的树根
+      while (!inc.empty() && val < inc.top()) { pre = inc.top(); inc.pop(); }
+      inc.push(val);
     }
-    return dp[n];
+    return true;
   }
 };
 
 int main() {
     Solution sol;
-    cout << (sol.cuttingRope(2) == 1) << endl;
-    cout << (sol.cuttingRope(10) == 36) << endl;
+    cout << (sol.verifyPostorder({1,3,2}) == true) << endl;
+    cout << (sol.verifyPostorder({1,6,3,2,5}) == false) << endl;
+    cout << (sol.verifyPostorder({1,3,2,6,5}) == true) << endl;
     return 0;
 }
