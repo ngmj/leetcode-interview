@@ -15,6 +15,16 @@
 注意: "aba" 也是一个有效答案。
 =》解法：定义二维数组，dp[i][j]表示i～j是否是回文，计算长度为1的回文dp[i][i]，计算长度为2的dp[i][i+1]，再一直继续长度为n的
          dp[i][j+n-1] = dp[i+1][j+n-2] && s[i] == s[i+len-1]
+2.2、https://leetcode-cn.com/problems/longest-palindromic-subsequence/
+最长公共子序列
+给定一个字符串 s ，找到其中最长的回文子序列，并返回该序列的长度。可以假设 s 的最大长度为 1000 。
+输入:
+"bbbab"
+输出:
+4（"bbbb"）
+=》解法：dp[i][j] 表示i~j的最长回文子序列长度；dp[i][j] = dp[i+1][j-1] + 2 if val[i] == val[j]
+                                                          max(dp[i+1][j], dp[i][j-1]) if val[i] != val[j]
+         意遍历顺序，i 从最后一个字符开始往前遍历，j 从 i + 1 开始往后遍历，这样可以保证每个子问题都已经算好了。
 
 3、https://leetcode-cn.com/problems/generate-parentheses/
 括号生成
@@ -112,3 +122,10 @@
 给定一个正整数 n，将其拆分为至少两个正整数的和，并使这些整数的乘积最大化。 返回你可以获得的最大乘积。
 =》解法1：尽可能多的3+剩余值
    解法2：dp[i] = max{j*dp[i-j], (i-j)*j}, j=0~i
+
+13、https://leetcode-cn.com/problems/uncrossed-lines/
+1035. 不相交的线
+我们在两条独立的水平线上按给定的顺序写下 A 和 B 中的整数。
+现在，我们可以绘制一些连接两个数字 A[i] 和 B[j] 的直线，只要 A[i] == B[j]，且我们绘制的直线不与任何其他连线（非水平线）相交。
+以这种方法绘制线条，并返回我们可以绘制的最大连线数。
+=》解法：最长公共子序列, if A[i] == B[j]: dp[i][j] == dp[i-1][j-1] + 1; else dp[i][j] = max(dp[i][j-1], dp[i-1][])
